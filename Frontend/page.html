@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Khet Rakshak Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Arial;background:#eef5e8;padding:20px;}
+.page{max-width:430px;margin:auto;background:white;border-radius:25px;padding:25px;text-align:center;}
+.icon{font-size:65px;}
+h1{color:#0b5c32;}
+.box{background:#f1faef;padding:15px;border-radius:15px;margin:15px 0;text-align:left;}
+button{background:#087236;color:white;border:none;padding:14px;border-radius:12px;cursor:pointer;}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+  <div class="icon" id="icon">🌾</div>
+  <h1 id="title">Page</h1>
+  <p id="desc">Loading...</p>
+
+  <div id="content" class="box">Loading data...</div>
+
+  <button onclick="window.location.href='home.html'">Back to Home</button>
+</div>
+
+<script>
+const BACKEND_URL = "http://127.0.0.1:8000";
+
+let title = localStorage.getItem("pageTitle") || "Khet Rakshak";
+let icon = localStorage.getItem("pageIcon") || "🌾";
+let desc = localStorage.getItem("pageDesc") || "Smart farming feature";
+
+document.getElementById("title").innerText = title;
+document.getElementById("icon").innerText = icon;
+document.getElementById("desc").innerText = desc;
+
+loadPageData();
+
+async function loadPageData(){
+  let content = document.getElementById("content");
+
+  try{
+    if(title === "Weather Alert"){
+      let res = await fetch(`${BACKEND_URL}/weather-alert`);
+      let data = await res.json();
+
+      content.innerHTML = `
+        <h3>Weather Report</h3>
+        <p><b>Temperature:</b> ${data.temperature}</p>
+        <p><b>Condition:</b> ${data.condition}</p>
+        <p><b>Alert:</b> ${data.alert_message}</p>
+      `;
+    }
+
+    else if(title === "Market Price"){
+      let res = await fetch(`${BACKEND_URL}/market-prices`);
+      let data = await res.json();
+
+      content.innerHTML = `<h3>Market Prices</h3>`;
+
+      data.prices.forEach(item => {
+        content.innerHTML += `
+          <p><b>${item.mandi}</b><br>
+          ${item.variety} - ${item.price}</p>
+        `;
+      });
+    }
+
+    else if(title === "Crop Guide"){
+      let res = await fetch(`${BACKEND_URL}/crop-guide`);
+      let data = await res.json();
+
+      content.innerHTML = `
+        <h3>Crop Guide</h3>
+        <p><b>Sowing Time:</b> ${data.sowing_time}</p>
+        <p><b>Watering:</b> ${data.watering_cycles}</p>
+        <p><b>Soil pH:</b> ${data.soil_ph}</p>
+        <p><b>Spacing:</b> ${data.spacing}</p>
+      `;
+    }
+
+    else if(title === "Fertilizer Guide"){
+      let res = await fetch(`${BACKEND_URL}/fertilizer-guide`);
+      let data = await res.json();
+
+      content.innerHTML = `<h3>Fertilizer Guide</h3>`;
+
+      data.recommendations.forEach(item => {
+        content.innerHTML += `
+          <p><b>${item.stage}</b><br>
+          ${item.type} - ${item.amount}</p>
+        `;
+      });
+    }
+
+    else if(title === "Nearby Stores"){
+      let res = await fetch(`${BACKEND_URL}/nearby-stores`);
+      let data = await res.json();
+
+      content.innerHTML = `<h3>Nearby Stores</h3>`;
+
+      data.forEach(store => {
+        content.innerHTML += `
+          <p><b>${store.name}</b><br>
+          Distance: ${store.distance}<br>
+          Phone: ${store.phone}</p>
+        `;
+      });
+    }
+
+    else if(title === "Expert Help"){
+      let res = await fetch(`${BACKEND_URL}/expert-help`);
+      let data = await res.json();
+
+      content.innerHTML = `
+        <h3>Expert Support</h3>
+        <p><b>Toll Free:</b> ${data.toll_free}</p>
+        <p><b>WhatsApp:</b> ${data.whatsapp_support}</p>
+        <p><b>Timing:</b> ${data.timing}</p>
+      `;
+    }
+
+    else{
+      content.innerHTML = `
+        <h3>${title}</h3>
+        <p>This section is ready. You can add more backend API for this feature.</p>
+      `;
+    }
+  }
+
+  catch(error){
+    content.innerHTML = "Backend data not loaded. Make sure FastAPI is running.";
+    console.log(error);
+  }
+}
+</script>
+
+</body>
+</html>

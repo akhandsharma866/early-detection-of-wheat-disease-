@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Khet Rakshak Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+
+body{background:#eef5e8;padding:15px;}
+
+.app{
+max-width:430px;margin:auto;background:white;border-radius:25px;
+padding:18px;animation:fadeIn 0.8s ease;
+}
+
+.header{display:flex;justify-content:space-between;align-items:center;}
+.menu{font-size:30px;cursor:pointer;}
+
+.brand{display:flex;align-items:center;gap:10px;}
+.brand img{width:58px;height:58px;border-radius:10px;}
+.brand h1{font-size:23px;color:#0b5c32;}
+.brand p{font-size:12px;color:#555;}
+
+.profile{width:45px;height:45px;border-radius:50%;cursor:pointer;}
+
+.hero{
+margin-top:20px;padding:25px;border-radius:20px;
+background:url("farm.jpeg") center/cover no-repeat;
+color:white;
+}
+
+.hero h2{font-size:28px;margin-bottom:10px;}
+
+.weather{
+margin-top:15px;display:flex;justify-content:space-between;
+background:rgba(255,255,255,0.25);padding:15px;
+border-radius:15px;text-align:center;
+}
+
+.section-title{margin:25px 0 15px;color:#0b5c32;}
+
+.features{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.card{
+background:#f1faef;border-radius:18px;padding:15px;text-align:center;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 8px 15px rgba(0,0,0,0.15);
+}
+
+.icon-btn{
+width:100%;
+border:none;
+background:none;
+cursor:pointer;
+}
+
+.icon-btn span{font-size:40px;}
+.icon-btn h3{margin:10px 0;color:#0b5c32;}
+.icon-btn p{color:#333;font-size:14px;}
+
+.status{
+margin-top:20px;padding:18px;border-radius:18px;
+background:#eaf8e5;display:flex;justify-content:space-between;
+align-items:center;
+}
+
+.status button{
+background:#087236;color:white;border:none;padding:12px 18px;
+border-radius:25px;cursor:pointer;
+}
+
+.quick{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.quick button{
+padding:18px;border:none;border-radius:15px;background:#f1faef;
+cursor:pointer;font-size:16px;transition:0.3s;
+}
+
+.quick button:hover{
+background:#dff5dc;
+transform:scale(1.05);
+}
+
+.nav{
+margin-top:25px;display:flex;justify-content:space-around;
+background:#f8fff6;padding:15px;border-radius:20px;
+}
+
+.nav button{
+border:none;background:none;cursor:pointer;font-size:14px;color:#033d20;
+}
+
+.scan{
+background:#087236 !important;color:white !important;
+padding:12px;border-radius:50%;
+}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">
+<div class="menu">☰</div>
+
+<div class="brand">
+<img src="logo.png">
+<div>
+<h1>Khet Rakshak</h1>
+<p>Protecting Crops, Securing Future</p>
+</div>
+</div>
+
+<img src="profile.jpg" class="profile">
+</div>
+
+<div class="hero">
+<h2>Hello Farmer 👋</h2>
+<p>Let's protect your crops and maximize yield.</p>
+
+<div class="weather">
+<div>☀️<br><b>28°C</b><br>Temp</div>
+<div>💧<br><b>65%</b><br>Humidity</div>
+<div>💨<br><b>12 km/h</b><br>Wind</div>
+</div>
+</div>
+
+<h2 class="section-title">Features</h2>
+
+<div class="features">
+
+<div class="card">
+<span style="font-size:40px;">🦠</span>
+<h3>Disease Detection</h3>
+<p>Scan Wheat Diseases</p>
+
+<br>
+
+<input type="file" id="wheatImageInput" accept="image/*"
+style="width:100%;padding:8px;margin-bottom:10px;border:1px dashed #087236;border-radius:5px;">
+
+<button onclick="predictWheatDisease()"
+style="background:#087236;color:white;border:none;width:100%;padding:12px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;">
+🔍 Check Disease
+</button>
+
+<div id="predictionResult"
+style="display:none;margin-top:15px;padding:12px;background:white;border-radius:10px;text-align:left;border-left:5px solid #087236;">
+
+<h4 style="color:#0b5c32;">Disease Report:</h4>
+<p><strong>Disease:</strong> <span id="resDisease" style="color:#d32f2f;font-weight:bold;"></span></p>
+<p><strong>Confidence:</strong> <span id="resConfidence" style="font-weight:bold;"></span></p>
+<p><strong>Remedy:</strong> <span id="resRemedy"></span></p>
+
+</div>
+</div>
+
+<div class="card">
+<button class="icon-btn" onclick="openPage('Weather Alert','🌦️','Check weather alerts.')">
+<span>🌦️</span>
+<h3>Weather Alert</h3>
+<p>Live Forecast</p>
+</button>
+</div>
+
+<div class="card">
+<button class="icon-btn" onclick="openPage('Market Price','🛒','View live mandi rates.')">
+<span>🛒</span>
+<h3>Market Price</h3>
+<p>Live Mandi Rates</p>
+</button>
+</div>
+
+<div class="card">
+<button class="icon-btn" onclick="openPage('Expert Help','🎧','Contact agriculture experts.')">
+<span>🎧</span>
+<h3>Expert Help</h3>
+<p>Talk To Experts</p>
+</button>
+</div>
+
+<div class="card">
+<button class="icon-btn" onclick="openPage('Crop Guide','🌾','Learn crop management.')">
+<span>🌾</span>
+<h3>Crop Guide</h3>
+<p>Crop Management</p>
+</button>
+</div>
+
+<div class="card">
+<button class="icon-btn" onclick="openPage('Fertilizer Guide','🧪','Get fertilizer suggestions.')">
+<span>🧪</span>
+<h3>Fertilizer Guide</h3>
+<p>Best Suggestions</p>
+</button>
+</div>
+
+</div>
+
+<div class="status">
+<div>
+<h3>My Crop Status</h3>
+<p>Monitor Crop Health</p>
+</div>
+<button onclick="openPage('My Crop Status','🌱','View crops.')">View</button>
+</div>
+
+<h2 class="section-title">Quick Actions</h2>
+
+<div class="quick">
+<button onclick="openPage('Camera Scan','📷','Open camera scan.')">📷<br>Camera Scan</button>
+<button onclick="openPage('Gallery Scan','🖼️','Upload image.')">🖼️<br>Gallery Scan</button>
+<button onclick="openPage('Voice Assistant','🎤','Voice assistant.')">🎤<br>Voice Assistant</button>
+<button onclick="openPage('Nearby Stores','🏪','Nearby stores.')">🏪<br>Nearby Stores</button>
+</div>
+
+<div class="nav">
+<button onclick="window.location.href='home.html'">🏠<br>Home</button>
+<button onclick="openPage('Crops','🌱','Crop history.')">🌱<br>Crops</button>
+<button class="scan" onclick="openPage('Scan Crop','⌖','Start scanning.')">⌖</button>
+<button onclick="openPage('Alerts','🔔','Alerts.')">🔔<br>Alerts</button>
+<button onclick="openPage('Profile','👤','Profile settings.')">👤<br>Profile</button>
+</div>
+
+</div>
+
+<script>
+function openPage(title, icon, desc){
+localStorage.setItem("pageTitle", title);
+localStorage.setItem("pageIcon", icon);
+localStorage.setItem("pageDesc", desc);
+window.location.href = "page.html";
+}
+
+async function predictWheatDisease(){
+
+const fileInput = document.getElementById("wheatImageInput");
+const file = fileInput.files[0];
+
+if(!file){
+alert("Please select a wheat leaf image first!");
+return;
+}
+
+const formData = new FormData();
+formData.append("file", file);
+
+try{
+const BACKEND_URL = "http://127.0.0.1:8000", {
+method: "POST",
+body: formData
+});
+
+const data = await response.json();
+
+document.getElementById("resDisease").innerText = data.disease;
+document.getElementById("resConfidence").innerText = data.confidence + "%";
+document.getElementById("resRemedy").innerText = data.remedy || "No remedy available";
+
+document.getElementById("predictionResult").style.display = "block";
+}
+
+catch(error){
+console.log(error);
+alert("Backend connection failed. Make sure Flask is running on port 5000.");
+}
+}
+</script>
+<script>
+async function predictWheatDisease() {
+    const fileInput = document.getElementById("wheatImageInput");
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a wheat leaf image first!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/predict", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        document.getElementById("resDisease").innerText = data.disease;
+        document.getElementById("resConfidence").innerText = data.confidence;
+        document.getElementById("resRemedy").innerText = data.remedy;
+
+        document.getElementById("predictionResult").style.display = "block";
+    } catch (error) {
+        console.log(error);
+        alert("Backend connection failed");
+    }
+}
+
+function openPage(title, icon, desc) {
+    localStorage.setItem("pageTitle", title);
+    localStorage.setItem("pageIcon", icon);
+    localStorage.setItem("pageDesc", desc);
+    window.location.href = "page.html";
+}
+</script>
+
+</body>
+</html>

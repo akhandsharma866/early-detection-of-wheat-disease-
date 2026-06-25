@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Khet Rakshak Sign In</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+background:url("farm.jpeg") center/cover no-repeat;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.login-box{
+width:330px;
+padding:25px;
+background:rgba(255,255,255,0.75);
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+.logo{
+width:120px;
+height:120px;
+object-fit:contain;
+background:white;
+border-radius:15px;
+padding:8px;
+}
+
+.tagline{
+font-size:12px;
+color:#0b5c32;
+font-weight:bold;
+margin-bottom:25px;
+}
+
+h2{
+letter-spacing:4px;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:13px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+background:#e5e5e5;
+}
+
+button{
+width:100%;
+padding:15px;
+background:black;
+color:white;
+border:none;
+border-radius:10px;
+font-size:22px;
+cursor:pointer;
+margin-top:10px;
+}
+
+#message{
+margin-top:15px;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+<img src="logo.png" class="logo">
+
+<p class="tagline">PROTECTING CROPS, SECURING FUTURE</p>
+
+<h2>SIGN IN</h2>
+
+<input type="email" id="email" placeholder="Email Address">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">SIGN IN</button>
+
+<p id="message"></p>
+
+</div>
+
+<script>
+function login(){
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+let message=document.getElementById("message");
+
+if(email==="khetrakshak@gmail.com" && password==="123456"){
+message.innerHTML="Sign In Successful";
+message.style.color="green";
+
+setTimeout(function(){
+window.location.href="home.html";
+},1000);
+}
+else{
+message.innerHTML="Invalid Email or Password";
+message.style.color="red";
+}
+}
+</script>
+
+</body>
+</html>
